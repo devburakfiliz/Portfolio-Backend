@@ -1,5 +1,7 @@
 ﻿using Bussiness.Abstract;
+using Bussiness.Constants;
 using Core.Utilities.Results;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -11,24 +13,36 @@ namespace Bussiness.Concrete
 {
     public class ContactManager : IContactService
     {
+
+        IContactDal _contactDal;
+
+        public ContactManager(IContactDal contactDal)
+        {
+            _contactDal = contactDal;
+        }
+
         public IResult Add(Contact entity)
         {
-            throw new NotImplementedException();
+            _contactDal.Add(entity);
+            return new SuccessResult(Messages.ContactAdded);
         }
 
         public IResult Delete(Contact entity)
         {
-            throw new NotImplementedException();
+            _contactDal.Delete(entity);
+            return new SuccessResult(Messages.ContactDeleted);
         }
 
         public IDataResult<List<Contact>> GetAll()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Contact>>(_contactDal.GetAll(), Messages.ContactListed);
+
         }
 
         public IResult Update(Contact entity)
         {
-            throw new NotImplementedException();
+            _contactDal.Update(entity);
+            return new SuccessResult(Messages.ContactUpdated);
         }
     }
 }

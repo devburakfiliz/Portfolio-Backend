@@ -1,5 +1,7 @@
 ﻿using Bussiness.Abstract;
+using Bussiness.Constants;
 using Core.Utilities.Results;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -12,24 +14,35 @@ namespace Bussiness.Concrete
 
     public class WelcomePageManager : IWelcomePageService
     {
+
+        IWelcomePageDal _welcomePageDal;
+
+        public WelcomePageManager(IWelcomePageDal welcomePageDal)
+        {
+            _welcomePageDal = welcomePageDal;
+        }
+
         public IResult Add(WelcomePage entity)
         {
-            throw new NotImplementedException();
+            _welcomePageDal.Add(entity);
+            return new SuccessResult(Messages.TextAdded);
         }
 
         public IResult Delete(WelcomePage entity)
         {
-            throw new NotImplementedException();
+            _welcomePageDal.Delete(entity);
+            return new SuccessResult(Messages.TextDeleted);
         }
 
         public IDataResult<List<WelcomePage>> GetAll()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<WelcomePage>>(_welcomePageDal.GetAll(), Messages.TextListed);
         }
 
         public IResult Update(WelcomePage entity)
         {
-            throw new NotImplementedException();
+            _welcomePageDal.Update(entity);
+            return new SuccessResult(Messages.TextUpdated);
         }
     }
 }

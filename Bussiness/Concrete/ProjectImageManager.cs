@@ -1,5 +1,7 @@
 ﻿using Bussiness.Abstract;
+using Bussiness.Constants;
 using Core.Utilities.Results;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -11,24 +13,36 @@ namespace Bussiness.Concrete
 {
     public class ProjectImageManager : IProjectImageService
     {
+
+        IProjectImageDal _projectImageDal;
+
+        public ProjectImageManager(IProjectImageDal projectImageDal)
+        {
+            _projectImageDal = projectImageDal;
+        }
+
         public IResult Add(ProjectImage entity)
         {
-            throw new NotImplementedException();
+            _projectImageDal.Add(entity);
+            return new SuccessResult(Messages.ProjectImageAdded);
         }
 
         public IResult Delete(ProjectImage entity)
         {
-            throw new NotImplementedException();
+            _projectImageDal.Delete(entity);
+            return new SuccessResult(Messages.ProjectImageDeleted);
         }
 
         public IDataResult<List<ProjectImage>> GetAll()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<ProjectImage>>(_projectImageDal.GetAll(), Messages.ProjectImageListed);
+
         }
 
         public IResult Update(ProjectImage entity)
         {
-            throw new NotImplementedException();
+            _projectImageDal.Update(entity);
+            return new SuccessResult(Messages.ProjectImageUpdated);
         }
     }
 }

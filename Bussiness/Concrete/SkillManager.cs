@@ -1,5 +1,7 @@
 ﻿using Bussiness.Abstract;
+using Bussiness.Constants;
 using Core.Utilities.Results;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -11,24 +13,35 @@ namespace Bussiness.Concrete
 {
     public class SkillManager : ISkillService
     {
+
+        ISkillDal _skillDal;
+
+        public SkillManager(ISkillDal skillDal)
+        {
+            _skillDal = skillDal;
+        }
+
         public IResult Add(Skill entity)
         {
-            throw new NotImplementedException();
+            _skillDal.Add(entity);
+            return new SuccessResult(Messages.SkillAdded);
         }
 
         public IResult Delete(Skill entity)
         {
-            throw new NotImplementedException();
+            _skillDal.Delete(entity);
+            return new SuccessResult(Messages.SkillDeleted);
         }
 
         public IDataResult<List<Skill>> GetAll()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Skill>>(_skillDal.GetAll(), Messages.SkillImagListed);
         }
 
         public IResult Update(Skill entity)
         {
-            throw new NotImplementedException();
+            _skillDal.Update(entity);
+            return new SuccessResult(Messages.SkillUpdated);
         }
     }
 }
