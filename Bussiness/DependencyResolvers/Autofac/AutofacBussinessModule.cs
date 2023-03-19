@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
-using Business.Abstract;
-using Business.Concrete;
+using Bussiness.Abstract;
+using Bussiness.Concrete;
 using Castle.DynamicProxy;
 using Core.Utilities.Helpers.FileHelper;
 using Core.Utilities.Interceptors;
@@ -12,40 +12,51 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+
+
 namespace Business.DependencyResolvers.Autofac
 {
     public class AutofacBussinessModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<CarManager>().As<ICarService>().SingleInstance();
-            builder.RegisterType<EfCarDal>().As<ICarDal>().SingleInstance();
 
-            builder.RegisterType<PaymentManager>().As<IPaymentService>().SingleInstance();
-            builder.RegisterType<EfPaymentDal>().As<IPaymentDal>().SingleInstance();
+            builder.RegisterType<AboutMeManager>().As<IAboutService>().SingleInstance();
+            builder.RegisterType<EfAboutMeDal>().As<IAboutMeDal>().SingleInstance();
 
-            builder.RegisterType<RentalManager>().As<IRentalService>().SingleInstance();
-            builder.RegisterType<EfRentalDal>().As<IRentalDal>().SingleInstance();
+            builder.RegisterType<BlogManager>().As<IBlogService>().SingleInstance();
+            builder.RegisterType<EfBlogDal>().As<IBlogDal>().SingleInstance();
 
-            builder.RegisterType<CustomerManager>().As<ICustomerService>().SingleInstance();
-            builder.RegisterType<EfCustomerDal>().As<ICustomerDal>().SingleInstance();
+            builder.RegisterType<BlogImageManager>().As<IBlogImageService>().SingleInstance();
+            builder.RegisterType<EfBlogImageDal>().As<IBlogImageDal>().SingleInstance();
 
-            builder.RegisterType<BrandManager>().As<IBrandService>().SingleInstance();
-            builder.RegisterType<EfBrandDal>().As<IBrandDal>().SingleInstance();
+            builder.RegisterType<ProjectManager>().As<IProjectService>().SingleInstance();
+            builder.RegisterType<EfProjectDal>().As<IProjectDal>().SingleInstance();
 
-            builder.RegisterType<ColorManager>().As<IColorService>().SingleInstance();
-            builder.RegisterType<EfColorDal>().As<IColorDal>().SingleInstance();
+            builder.RegisterType<ProjectImageManager>().As<IProjectImageService>().SingleInstance();
+            builder.RegisterType<EfProjectImageDal>().As<IProjectImageDal>().SingleInstance();
 
-            builder.RegisterType<CarImageManager>().As<ICarImageService>().SingleInstance();
-            builder.RegisterType<EfCarImageDal>().As<ICarImageDal>().SingleInstance();
+            builder.RegisterType<SkillManager>().As<ISkillService>().SingleInstance();
+            builder.RegisterType<EfSkillDal>().As<ISkillDal>().SingleInstance();
 
-            builder.RegisterType<FileHeplerManager>().As<IFileHelper>().SingleInstance();
+            builder.RegisterType<SkillImageManager>().As<ISkillImageService>().SingleInstance();
+            builder.RegisterType<EfSkillImageDal>().As<ISkillImageDal>().SingleInstance();
+
+            builder.RegisterType<SliderManager>().As<ISliderService>().SingleInstance();
+            builder.RegisterType<EfSliderDal>().As<ISliderDal>().SingleInstance();
+
+            builder.RegisterType<WelcomePageManager>().As<IWelcomePageService>().SingleInstance();
+            builder.RegisterType<EfWelcomePageDal>().As<IWelcomePageDal>().SingleInstance();
+
+            builder.RegisterType<ContactManager>().As<IContactService>().SingleInstance();
+            builder.RegisterType<EfContactDal>().As<IContactDal>().SingleInstance();
 
             builder.RegisterType<UserManager>().As<IUserService>();
             builder.RegisterType<EfUserDal>().As<IUserDal>();
 
-            builder.RegisterType<AuthManager>().As<IAuthService>().SingleInstance();
-            builder.RegisterType<JwtHelper>().As<ITokenHelper>().SingleInstance();
+            builder.RegisterType<AuthManager>().As<IAuthService>();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
+
 
 
 
