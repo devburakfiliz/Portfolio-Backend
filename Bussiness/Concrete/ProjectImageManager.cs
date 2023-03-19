@@ -1,8 +1,11 @@
-﻿using Bussiness.Abstract;
+﻿using Business.Constants;
+using Bussiness.Abstract;
 using Bussiness.Constants;
+using Core.Utilities.Helpers.FileHelper;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,34 +18,48 @@ namespace Bussiness.Concrete
     {
 
         IProjectImageDal _projectImageDal;
-
-        public ProjectImageManager(IProjectImageDal projectImageDal)
+        IFileHelper _fileHelper;
+        public ProjectImageManager(IProjectImageDal projectImageDal, IFileHelper fileHelper)
         {
             _projectImageDal = projectImageDal;
+            _fileHelper = fileHelper;
+        }
+        public IResult Add(IFormFile file, ProjectImage projectImage)
+        {
+
+            projectImage.ImagePath = _fileHelper.Upload(file, PathConstants.ImagesPath);
+
+            _projectImageDal.Add(projectImage);
+            return new SuccessResult("Resim başarıyla yüklendi");
         }
 
-        public IResult Add(ProjectImage entity)
+        public IResult Delete(ProjectImage carImage)
         {
-            _projectImageDal.Add(entity);
-            return new SuccessResult(Messages.ProjectImageAdded);
+            _fileHelper.Delete(PathConstants.ImagesPath + carImage.ImagePath);
+            _projectImageDal.Delete(carImage);
+            return new SuccessResult();
+        }
+        public IResult Update(IFormFile file, ProjectImage blogImage)
+        {
+            blogImage.ImagePath = _fileHelper.Update(file, PathConstants.ImagesPath + blogImage.ImagePath, PathConstants.ImagesPath);
+            _projectImageDal.Update(blogImage);
+            return new SuccessResult();
         }
 
-        public IResult Delete(ProjectImage entity)
+        public IDataResult<List<ProjectImage>> GetByBlogId(int projectId)
         {
-            _projectImageDal.Delete(entity);
-            return new SuccessResult(Messages.ProjectImageDeleted);
+
+            return new SuccessDataResult<List<ProjectImage>>(_projectImageDal.GetAll(c => c.ProjectId == projectId));
+        }
+
+        public IDataResult<ProjectImage> GetByImageId(int imageId)
+        {
+            return new SuccessDataResult<ProjectImage>(_projectImageDal.Get(c => c.Id == imageId));
         }
 
         public IDataResult<List<ProjectImage>> GetAll()
         {
-            return new SuccessDataResult<List<ProjectImage>>(_projectImageDal.GetAll(), Messages.ProjectImageListed);
-
-        }
-
-        public IResult Update(ProjectImage entity)
-        {
-            _projectImageDal.Update(entity);
-            return new SuccessResult(Messages.ProjectImageUpdated);
+            return new SuccessDataResult<List<ProjectImage>>(_projectImageDal.GetAll());
         }
     }
 }

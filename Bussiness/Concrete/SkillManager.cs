@@ -43,5 +43,10 @@ namespace Bussiness.Concrete
             _skillDal.Update(entity);
             return new SuccessResult(Messages.SkillUpdated);
         }
+        public IDataResult<Skill> GetById(int skillId)
+        {
+            return new SuccessDataResult<Skill>(_skillDal.Get(c => c.Id == skillId));
+
+        }
     }
 }

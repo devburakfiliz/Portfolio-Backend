@@ -18,6 +18,13 @@ namespace Bussiness.Constants
         public static string BlogDeleted = "Blog silindi.";
         public static string BlogListed = "Blog listelendi.";
 
+        public static string UserAdded = "User eklendi.";
+        public static string UserUpdated = "User güncellendi.";
+        public static string UserDeleted = "User silindi.";
+        public static string MailListed = "Mail listelendi.";
+        public static string MailError = "Mail Bulunamadı.";
+        public static string UserListed = "User listelendi.";
+
         public static string BlogImageAdded = "Blog Resmi eklendi.";
         public static string BlogImageUpdated = "Blog Resmi güncellendi.";
         public static string BlogImageDeleted = "Blog Resmi silindi.";
@@ -57,5 +64,15 @@ namespace Bussiness.Constants
         public static string TextUpdated = "Text güncellendi.";
         public static string TextDeleted = "Text silindi.";
         public static string TextListed = "Textler listelendi.";
+
+        public static string AuthorizationDenied = "Yetkiniz yok.";
+        public static string UserRegistered = "Kayıt oldu.";
+        public static string UserNotFound = "Kullanıcı bulunamadı.";
+        public static string PasswordError = "Parola hatası.";
+        public static string SuccessfulLogin = "Başarılı giriş.";
+        public static string UserAlreadyExists = "Kullanıcı Mevcut";
+        public static string AccessTokenCreated = "Giriş yapıldı.";
+        public static string ClaimsListed = "Roller Listelendi.";
+  
     }
 }

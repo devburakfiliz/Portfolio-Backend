@@ -1,8 +1,11 @@
-﻿using Bussiness.Abstract;
+﻿using Business.Constants;
+using Bussiness.Abstract;
 using Bussiness.Constants;
+using Core.Utilities.Helpers.FileHelper;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,34 +17,42 @@ namespace Bussiness.Concrete
     public class SliderManager : ISliderService
     {
         ISliderDal _sliderDal;
-
-        public SliderManager(ISliderDal sliderDal)
+        IFileHelper _fileHelper;
+        public SliderManager(ISliderDal sliderDal, IFileHelper fileHelper)
         {
             _sliderDal = sliderDal;
+            _fileHelper = fileHelper;
+        }
+        public IResult Add(IFormFile file, Slider slider)
+        {
+
+            slider.ImagePath = _fileHelper.Upload(file, PathConstants.ImagesPath);
+
+            _sliderDal.Add(slider);
+            return new SuccessResult("Resim başarıyla yüklendi");
         }
 
-        public IResult Add(Slider entity)
+        public IResult Delete(Slider slider)
         {
-            _sliderDal.Add(entity);
-            return new SuccessResult(Messages.SliderAdded);
+            _fileHelper.Delete(PathConstants.ImagesPath + slider.ImagePath);
+            _sliderDal.Delete(slider);
+            return new SuccessResult();
+        }
+        public IResult Update(IFormFile file, Slider slider)
+        {
+            slider.ImagePath = _fileHelper.Update(file, PathConstants.ImagesPath + slider.ImagePath, PathConstants.ImagesPath);
+            _sliderDal.Update(slider);
+            return new SuccessResult();
         }
 
-        public IResult Delete(Slider entity)
+        public IDataResult<Slider> GetByImageId(int sliderId)
         {
-            _sliderDal.Delete(entity);
-            return new SuccessResult(Messages.SliderDeleted);
+            return new SuccessDataResult<Slider>(_sliderDal.Get(c => c.Id == sliderId));
         }
 
         public IDataResult<List<Slider>> GetAll()
         {
-            return new SuccessDataResult<List<Slider>>(_sliderDal.GetAll(), Messages.SkillImagListed);
-
-        }
-
-        public IResult Update(Slider entity)
-        {
-            _sliderDal.Update(entity);
-            return new SuccessResult(Messages.SliderUpdated);
+            return new SuccessDataResult<List<Slider>>(_sliderDal.GetAll());
         }
     }
 }

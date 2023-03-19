@@ -1,5 +1,8 @@
 ﻿using Bussiness.Abstract;
+using Bussiness.Constants;
 using Core.Entities.Concrete;
+using Core.Utilities.Results;
+using Core.Utilities.Security.Hashing;
 using DataAccess.Abstract;
 using System;
 using System.Collections.Generic;
@@ -18,19 +21,74 @@ namespace Bussiness.Concrete
             _userDal = userDal;
         }
 
-        public List<OperationClaim> GetClaims(User user)
+        public IResult Add(User entity)
         {
-            return _userDal.GetClaims(user);
+            _userDal.Add(entity);
+            return new SuccessResult(Messages.UserAdded);
         }
 
-        public void Add(User user)
+        public IResult Delete(User entity)
         {
-            _userDal.Add(user);
+            _userDal.Delete(entity);
+            return new SuccessResult(Messages.UserDeleted);
         }
 
-        public User GetByMail(string email)
+        public IDataResult<User> GetById(int id)
         {
-            return _userDal.Get(u => u.Email == email);
+            var result = _userDal.Get(u => u.Id == id);
+            if (result == null)
+            {
+                return new ErrorDataResult<User>(Messages.UserListed);
+            }
+            return new SuccessDataResult<User>(result, Messages.UserListed);
+        }
+
+        public IDataResult<User> GetByMail(string email)
+        {
+            var result = _userDal.Get(u => u.Email == email);
+            if (result == null)
+            {
+                return new ErrorDataResult<User>(Messages.MailError);
+            }
+            return new SuccessDataResult<User>(result, Messages.MailListed);
+        }
+
+        public List<OperationClaim> GetClaims(User entity)
+        {
+            return _userDal.GetClaims(entity);
+
+        }
+
+        public IResult Update(User entity)
+        {
+            _userDal.Update(entity);
+            return new SuccessResult(Messages.UserAdded);
+        }
+
+        public IResult UpdatePassword(User entity, string password)
+        {
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            var user = new User
+            {
+                Id = entity.Id,
+                Email = entity.Email,
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt,
+                Status = true
+            };
+            _userDal.Update(user);
+            return new SuccessResult(Messages.UserAdded);
+        }
+
+
+        public IDataResult<List<User>> GetAll()
+        {
+
+            return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UserListed);
+
         }
     }
 }

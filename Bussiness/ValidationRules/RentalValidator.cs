@@ -6,11 +6,8 @@ using System.Text;
 
 namespace Business.ValidationRules
 {
-    public class RentalValidator :AbstractValidator<Rental>
+    public class RentalValidator :AbstractValidator<Project>
     {
-       public RentalValidator()
-        {
-            RuleFor(p => p.ReturnDate).NotNull();
-        }
+     
     }
 }
