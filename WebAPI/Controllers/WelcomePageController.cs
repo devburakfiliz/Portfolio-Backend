@@ -30,9 +30,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpDelete("delete")]
-        public IActionResult Delete(WelcomePage welcomePage)
+        public IActionResult Delete(int id)
         {
-            var result = _welcomePageService.Delete(welcomePage);
+            var result = _welcomePageService.Delete(id);
             if (result.Success)
             {
                 return Ok(result);

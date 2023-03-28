@@ -12,7 +12,8 @@ namespace Bussiness.Abstract
     {
         IDataResult<List<WelcomePage>> GetAll();
         IResult Update(WelcomePage entity);
-        IResult Delete(WelcomePage entity);
+        IResult Delete(int id);
+
         IResult Add(WelcomePage entity);
     }
 }

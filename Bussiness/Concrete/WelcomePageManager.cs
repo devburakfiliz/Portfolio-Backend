@@ -28,9 +28,9 @@ namespace Bussiness.Concrete
             return new SuccessResult(Messages.TextAdded);
         }
 
-        public IResult Delete(WelcomePage entity)
+        public IResult Delete(int id)
         {
-            _welcomePageDal.Delete(entity);
+            _welcomePageDal.Delete(new WelcomePage { Id = id });
             return new SuccessResult(Messages.TextDeleted);
         }
 
